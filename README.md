@@ -1,3 +1,5 @@
+>[![Build Status](https://travis-ci.org/vaulex/lab06.svg?branch=master)](https://travis-ci.org/vaulex/lab06)
+***
 ## Laboratory work VI
 
 Данная лабораторная работа посвещена изучению фреймворков для тестирования на примере **Catch**

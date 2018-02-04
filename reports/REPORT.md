@@ -1,91 +1,129 @@
-[![Build Status](https://travis-ci.org/vaulex/lab05.svg?branch=master)](https://travis-ci.org/vaulex/lab05)
-## Лабораторная работа №5. Отчет.
+### Лабораторная работа №6. Отчет.
 
 ## Задание на лабораторную работу:
 
-- [X] 1. Авторизоваться на сервисе **Travis CI** с использованием **GitHub** аккаунта
-- [X] 2. Создать публичный репозиторий с названием **lab05** на сервисе **GitHub**
-- [X] 3. Ознакомиться со ссылками учебного материала
-- [X] 4. Включить интеграцию сервиса **Travis CI** с созданным репозиторием
-- [X] 5. Получить токен для **Travis CLI** с правами **repo** и **user**
-- [X] 6. Получить фрагмент вставки значка сервиса **Travis CI** в формате **Markdown**
-- [X] 7. Установить [**Travis CLI**](https://github.com/travis-ci/travis.rb#installation)
-- [X] 8. Выполнить инструкцию учебного материала
-- [X] 9. Составить отчет и отправить ссылку личным сообщением в **Slack**
+- [ ] 1. Создать публичный репозиторий с названием **lab06** на сервисе **GitHub**
+- [ ] 2. Выполнить инструкцию учебного материала
+- [ ] 3. Ознакомиться со ссылками учебного материала
+- [ ] 4. Составить отчет и отправить ссылку личным сообщением в **Slack**
 
 ## Выполнение работы.
 	
 В соответствии с последовательностью, определенной заданием на лабораторную работу, были выполнены следующие действия:
-- [X] 1. Выполнена авторизация на сервисе **Travis CI** с использованием Github-аккаунта.
-- [X] 2. Для успешного выполнения задания создан новый пустой репозиторий lab05 с лицензией MIT.
-- [X] 3. Проведено ознакомление по приведенным ссылкам со следующими материалами по Travis Client, AppVeyour, GitLab CI.
-- [X] 4. Включена инеграция репозитория **lab05** с сервисом **Travis CI**.
-- [X] 5. Создан токен
-```ShellSession
-cffee121dcde080d6e766406b67a984c9aa4bc71
-```
-для **Travis CLI** с правами repo и user.
-- [X] 6. Получен код значка сервиса **Travis CI** в формате Markdown:
-```ShellSession
-[![Build Status](https://travis-ci.org/vaulex/lab05.svg?branch=master)](https://travis-ci.org/vaulex/lab05)
-```
-- [X] 7. Установлен Travis CLI.
-- [X] 8. Выполнена следующая последовательность команд:
+- [X] 1. Для успешного выполнения задания создан новый пустой репозиторий lab06 с лицензией MIT.
+- [X] 2. Выполнена следующая последовательность команд:
 
 ## Tutorial
 ```ShellSession
 $ export GITHUB_USERNAME=vaulex
 $ export GITHUB_TOKEN=ke2f610e566b6bff59c6534ca260455c8e91baaa6
+$ alias gsed=sed # for *-nix system
+```
+
+```ShellSession
 $ cd ${GITHUB_USERNAME}/workspace
 $ pushd .
 $ source scripts/activate
+```
 
-$ \curl -sSL https://get.rvm.io | bash -s -- --ignore-dotfiles
-$ echo "source $HOME/.rvm/scripts/rvm" >> scripts/activate
-$ rvm autolibs disable
-$ rvm install ruby-2.4.2
-$ rvm use 2.4.2 --default
-$ gem install travis
-
-$ git clone https://github.com/${GITHUB_USERNAME}/lab04 projects/lab05
-$ cd projects/lab05
+```ShellSession
+$ git clone https://github.com/${GITHUB_USERNAME}/lab05 projects/lab06
+$ cd projects/lab06
 $ git remote remove origin
-$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab05
+$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab06
+```
 
-$ cat >> .travis.yml <<EOF
-
-addons:
-  apt:
-    sources:
-      - george-edison55-precise-backports
-    packages:
-      - cmake
-      - cmake-data
+```ShellSession
+$ mkdir tests
+$ wget https://github.com/philsquared/Catch/releases/download/v1.9.3/catch.hpp -O tests/catch.hpp
+$ cat > tests/main.cpp <<EOF
+#define CATCH_CONFIG_MAIN
+#include "catch.hpp"
 EOF
+```
 
-$ travis login --github-token ${GITHUB_TOKEN}
+```ShellSession
+$ gsed -i '/option(BUILD_EXAMPLES "Build examples" OFF)/a\
+option(BUILD_TESTS "Build tests" OFF)
+' CMakeLists.txt
+$ cat >> CMakeLists.txt <<EOF
+
+if(BUILD_TESTS)
+	enable_testing()
+	file(GLOB \${PROJECT_NAME}_TEST_SOURCES tests/*.cpp)
+	add_executable(check \${\${PROJECT_NAME}_TEST_SOURCES})
+	target_link_libraries(check \${PROJECT_NAME} \${DEPENDS_LIBRARIES})
+	add_test(NAME check COMMAND check "-s" "-r" "compact" "--use-colour" "yes") 
+endif()
+EOF
+```
+
+```ShellSession
+$ cat >> tests/test1.cpp <<EOF
+#include "catch.hpp"
+#include <print.hpp>
+
+TEST_CASE("output values should match input values", "[file]") {
+  std::string text = "hello";
+  std::ofstream out("file.txt");
+  
+  print(text, out);
+  out.close();
+  
+  std::string result;
+  std::ifstream in("file.txt");
+  in >> result;
+  
+  REQUIRE(result == text);
+}
+EOF
+```
+
+```ShellSession
+$ cmake -H. -B_build -DBUILD_TESTS=ON
+$ cmake --build _build
+$ cmake --build _build --target test
+```
+
+```ShellSession
+$ _build/check -s -r compact
+$ cmake --build _build --target test -- ARGS=--verbose 
+```
+
+```ShellSession
+$ gsed -i 's/lab05/lab06/g' README.md
+$ gsed -i 's/\(DCMAKE_INSTALL_PREFIX=_install\)/\1 -DBUILD_TESTS=ON/' .travis.yml
+$ gsed -i '/cmake --build _build --target install/a\
+- cmake --build _build --target test -- ARGS=--verbose
+' .travis.yml
+```
+
+```ShellSession
 $ travis lint
+```
 
-$ ex -sc '1i|<фрагмент_вставки_значка>' -cx README.md
-
-$ git add .travis.yml
-$ git add README.md
-$ git commit -m"added CI"
+```ShellSession
+$ git add .
+$ git commit -m"added tests"
 $ git push origin master
-$ travis lint
-$ travis accounts
-$ travis sync
-$ travis repos
+```
+
+```ShellSession
+$ travis login --auto
 $ travis enable
-$ travis whatsup
-$ travis branches
-$ travis history
-$ travis show
+```
+
+```ShellSession
+$ mkdir artifacts
+$ sleep 20s && gnome-screenshot --file artifacts/screenshot.png
+# for macOS: $ screencapture -T 20 artifacts/screenshot.png
+# open https://github.com/${GITHUB_USERNAME}/lab06
 ```
 ## Report
+
 ```ShellSession
 $ popd
-$ export LAB_NUMBER=05
+$ export LAB_NUMBER=06
 $ git clone https://github.com/tp-labs/lab${LAB_NUMBER} tasks/lab${LAB_NUMBER}
 $ mkdir reports/lab${LAB_NUMBER}
 $ cp tasks/lab${LAB_NUMBER}/README.md reports/lab${LAB_NUMBER}/REPORT.md
@@ -93,8 +131,11 @@ $ cd reports/lab${LAB_NUMBER}
 $ edit REPORT.md
 $ gistup -m "lab${LAB_NUMBER}"
 ```
-- [X] 9. Составлен отчет о работе в формате MD, ссылка отправлена в **slack**.
+
+
+- [X] 3. Проведено ознакомление по приведенным ссылкам со следующими материалами по [Boost.Tests](http://www.boost.org/doc/libs/1_63_0/libs/test/doc/html/), [Google Test](https://github.com/google/googletest).
+- [X] 4. Составлен отчет о работе в формате MD, ссылка отправлена в **slack**.
 
 	
 ## Выводы:
-В ходе проделанной работы проведена ознакомительная работа с работой сервиса **Travis CI**, осуществлена его интеграция с репозиторием на **Github**, выполнена автоматизаированная сборка проекта, получен значек сервиса **Travis CI**.
+В ходе проделанной работы проведена ознакомительная работа с механизмом билд-тестов, выполнен тест, результат записан в **file.txt**, получен снимок экрана.
