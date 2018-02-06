@@ -118,9 +118,9 @@ $ edit REPORT.md
 $ gistup -m "lab${LAB_NUMBER}"
 ```
 
-- [X] 3. Проведено ознакомление по приведенным ссылкам со следующими материалами по [HTML](https://ru.wikipedia.org/wiki/HTML), [LAΤΕΧ](https://ru.wikipedia.org/wiki/LaTeX), [man](https://ru.wikipedia.org/wiki/Man_(%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%B0_Unix), [CHM](https://ru.wikipedia.org/wiki/HTMLHelp), [PostScript](https://ru.wikipedia.org/wiki/PostScript).
+- [X] 3. Проведено ознакомление по приведенным ссылкам со следующими материалами по [HTML](https://ru.wikipedia.org/wiki/HTML), [LAΤΕΧ](https://ru.wikipedia.org/wiki/LaTeX), [man](https://ru.wikipedia.org/wiki/Man_(%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%B0_Unix)), [CHM](https://ru.wikipedia.org/wiki/HTMLHelp), [PostScript](https://ru.wikipedia.org/wiki/PostScript).
 - [X] 4. Составлен отчет о работе в формате MD, ссылка отправлена в **slack**.
 
 	
 >## Выводы:
->В ходе проделанной работы проведена ознакомительная работа с системой документирования исходного кода **Doxygen**, создан конфигурационный файл системы и создана документация, документация в соответствии с требованиями **Github** загружена на ветку **gh-pages** репозитоиря, результат доступен по (https://vaulex.github.io/lab07/index.html), получен снимок экрана.
+>В ходе проделанной работы проведена ознакомительная работа с системой документирования исходного кода **Doxygen**, создан конфигурационный файл системы и создана документация, документация в соответствии с требованиями **Github** загружена на ветку **gh-pages** репозитоиря, результат доступен по https://vaulex.github.io/lab07/index.html, получен снимок экрана.
