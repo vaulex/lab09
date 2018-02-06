@@ -116,6 +116,7 @@ $ cp tasks/lab${LAB_NUMBER}/README.md reports/lab${LAB_NUMBER}/REPORT.md
 $ cd reports/lab${LAB_NUMBER}
 $ edit REPORT.md
 $ gistup -m "lab${LAB_NUMBER}"
+```
 
 - [X] 3. Проведено ознакомление по приведенным ссылкам со следующими материалами по [HTML](https://ru.wikipedia.org/wiki/HTML), [LAΤΕΧ](https://ru.wikipedia.org/wiki/LaTeX), [man](https://ru.wikipedia.org/wiki/Man_(%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%B0_Unix), [CHM](https://ru.wikipedia.org/wiki/HTMLHelp), [PostScript](https://ru.wikipedia.org/wiki/PostScript).
 - [X] 4. Составлен отчет о работе в формате MD, ссылка отправлена в **slack**.
