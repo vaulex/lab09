@@ -108,6 +108,7 @@ $ gistup -m "lab${LAB_NUMBER}"
 - [Go Setup](http://www.golangbootcamp.com/book/get_setup)
 - [github-release](https://github.com/aktau/github-release)
 
+
 ```
 Copyright (c) 2017 Братья Вершинины
 ```
